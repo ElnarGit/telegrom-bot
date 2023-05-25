@@ -17,10 +17,11 @@ public class CurrencyService {
         URL url = new URL("https://www.nbrb.by/api/exrates/rates/" + message + "?parammode=2");
         Scanner scanner = new Scanner((InputStream) url.getContent());
         String result = "";
-        while (scanner.hasNext()){
+        while (scanner.hasNext()) {
             result += scanner.nextLine();
         }
         JSONObject object = new JSONObject(result);
+
 
         model.setCur_ID(object.getInt("Cur_ID"));
         model.setDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
@@ -30,13 +31,17 @@ public class CurrencyService {
         model.setCur_Name(object.getString("Cur_Name"));
         model.setCur_OfficialRate(object.getDouble("Cur_OfficialRate"));
 
+        return "Официальный курс BYN к " + model.getCur_Abbreviation() + "\n" +
+                "на дату: " + getFormatDate(model) + "\n" +
+                "составляет: " + model.getCur_OfficialRate() + " BYN за " + model.getCur_Scale() + " " + model.getCur_Abbreviation();
 
-        return "Official rate of BYN to " + model.getCur_Abbreviation() + "\n" +
-                "on the date: " + getFormatDate(model) + "\n" +
-                "is: " + model.getCur_OfficialRate() + " BYN per " + model.getCur_Scale() + " " + model.getCur_Abbreviation();
+
+
     }
 
     private static String getFormatDate(CurrencyModel model) {
         return new SimpleDateFormat("dd MMM yyyy").format(model.getDate());
     }
+
+
 }

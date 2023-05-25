@@ -12,6 +12,4 @@ public class CurrencyModel {
     Integer cur_Scale;
     String cur_Name;
     Double cur_OfficialRate;
-
-
 }
